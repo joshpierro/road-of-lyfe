@@ -1,0 +1,19 @@
+{
+  "name": "Road of Life",
+  "short_name": "Road of Life",
+  "description": "Collect treats, evolve, and survive in a tiny endless-runner adventure.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#10172c",
+  "theme_color": "#10172c",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
