@@ -1,4 +1,4 @@
-# Road of Life
+# lyfecycle-Fork
 
 A mobile-first endless runner built with HTML Canvas, CSS, and vanilla JavaScript.
 
@@ -21,6 +21,9 @@ The app uses relative asset and service-worker paths, so it works from a project
 - Swipe left/right or use the on-screen arrows on touch devices.
 - Press **A / D** or **← / →** on a keyboard.
 - Press **Enter** to start or restart.
+- Use the pause button, or press **P** or **Escape**, to pause and resume.
+- Treats make your creature bigger and lighter; hazards make it smaller and darker. Red warning signs turn it into a pigeon, and green plus rewards transform it into a random animal.
+- To finish a run and see your score, pause and select **End Run**.
 
 ## Game design
 

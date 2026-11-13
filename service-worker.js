@@ -1,4 +1,4 @@
-const CACHE_NAME = "road-of-life-v1";
+const CACHE_NAME = "road-of-life-v9";
 const APP_SHELL = [
   "./",
   "./index.html",

@@ -1,9 +1,9 @@
-# ROAD OF LIFE
+# lyfecycle-Fork
 ## Game Design & Technical Specification – Version 5.0
 
 ### 1. PROJECT OVERVIEW
 
-Create a mobile-first, three-lane, pseudo-3D endless arcade runner called **Road of Life**.
+Create a mobile-first, three-lane, pseudo-3D endless arcade runner called **lyfecycle-Fork**.
 
 The player controls an evolving creature that automatically runs forward through an endless environment. The player moves between three lanes to avoid obstacles and collect Scooby Snacks, special rewards, and other surprises.
 
@@ -102,6 +102,7 @@ Controls should be comfortable for one-handed play.
 | Left Arrow | Move left |
 | Right Arrow | Move right |
 | Enter | Start or restart |
+| P or Escape | Pause or resume |
 
 Both keyboard control styles must work identically.
 
@@ -155,39 +156,23 @@ The initial release should support the four creatures listed below, but addition
 
 Each evolution stage should support:
 - Stage name.
-- Creature appearance.
+- A configurable list of creature forms and their appearances.
 - Personality.
 - Animation characteristics.
 - Optional gameplay characteristics.
 
 ### Initial Evolution Stages
 
-**Stage 1 – The Jelly-Blob**
-- Egg / Single-Cell stage.
-- Small, round, wobbly sphere.
-- Simple facial features.
-- Primitive, innocent, and vulnerable.
+Each major stage has four mini-evolution forms. They unlock at 0%, 25%, 50%, and 75% of that stage's point requirement. Mini evolutions do not reset points or change the major stage. A reward that crosses several thresholds displays the latest unlocked form; reaching a major evolution instead advances one stage and discards excess points, as above.
 
-**Stage 2 – The Wiggly Tad-Puff**
-- Baby stage.
-- Teardrop-shaped creature.
-- Tiny tail.
-- Expressive face.
-- Playful, wiggly, and curious.
+| Major stage | Mini-evolution forms, in order |
+|---|---|
+| Stage 1 – The Awakening | Little Egg → Tadpole → Froglet → Frog |
+| Stage 2 – The Wanderer | Little Lizard → Spotted Lizard → Crested Lizard → Fire-Crest Lizard |
+| Stage 3 – The Guardian | Baby Monkey → Curious Monkey → Clever Monkey → Guardian Monkey |
+| Stage 4 – The Cosmic Elder | Wildcat Cub → Spotted Wildcat → Elder Wildcat → Cosmic Wildcat |
 
-**Stage 3 – The Bouncy Gremlin-Tot**
-- Toddler stage.
-- More developed body.
-- Ear tufts.
-- Bouncy movements.
-- Energetic, mischievous, and unpredictable.
-
-**Stage 4 – The Spunky Teen-Beest**
-- Teenager stage.
-- Lankier appearance.
-- Beanie.
-- Side-eye expression.
-- Awkward, rebellious, and trying to look cool.
+These are stylized, original canvas illustrations inspired by the supplied creature reference. The HUD displays the major stage and current form; the game-over summary displays the major stage.
 
 ### Evolution Effects
 When the player evolves:
@@ -198,51 +183,27 @@ When the player evolves:
 - Reset the evolution meter.
 - Update the next evolution requirement.
 
-The initial release defines four creature stages. At Stage 4, the player remains Stage 4 and may continue collecting and accumulating evolution points, but does not evolve again until another stage is added through configuration. Do not cap the point total or impose a hard-coded maximum stage; the evolution system must allow additional configured stages later. At Stage 4, show the current run's accumulated evolution points instead of progress toward a nonexistent next stage.
+Mini evolutions also change the creature's appearance and provide visual and audio feedback without resetting the meter, unless a pigeon or random-animal transformation is active. While transformed, evolution continues in the background without replacing the current animal.
+
+The initial release defines four creature stages. At Stage 4, the player remains Stage 4 and may continue collecting and accumulating evolution points, but does not evolve again until another stage is added through configuration. Use the theoretical 800-point Stage 4 requirement as the reference for its mini forms, unlocking them at 200, 400, and 600 points. Do not cap the point total or impose a hard-coded maximum stage; the evolution system must allow additional configured stages later. At Stage 4, show the current run's accumulated evolution points instead of progress toward a nonexistent next stage.
 
 ---
 
-# 6. LIFE-FORCE SYSTEM
+# 6. SIZE, SHADE, AND TRANSFORMATIONS
 
-The player has a life-force reserve.
-
-Life force determines how much damage the creature can survive.
-
-### Initial Balance Defaults
-Use these configurable starting values for the first playable version:
-
-- Maximum life force: 100 points.
-- Regular obstacle damage: 25 points.
-- Heavy-damage obstacle damage: 50 points.
-- Life-force regeneration: 5 points per second while running, capped at maximum life force.
-- After taking nonlethal damage, ignore further ordinary and heavy obstacle collisions for 1 second. Deadly obstacles always end the game on contact.
-
-These are playtesting defaults, not fixed design limits; tune them after testing.
-
-### Rules
-- Colliding with an ordinary obstacle reduces life force.
-- Continued forward movement replenishes life force.
-- Life force cannot exceed its maximum capacity.
-- Collisions do not affect evolution stage or accumulated evolution points.
-- When life force reaches zero, the game ends.
-- A collision during the damage-invulnerability period causes no additional damage.
-
-### Damage Feedback
-When the player takes damage:
-- Display a visual damage effect.
-- Play an appropriate sound.
-- Animate the creature reacting to the collision.
-- Update the life-force meter.
-
-Life-force capacity, damage values, regeneration rate, and damage-invulnerability duration must be configurable.
+- Each ordinary or mega treat grows and lightens the creature by one step. Each regular or red-sign hazard shrinks and darkens it by one step; a heavy hazard does so by two steps.
+- Size and brightness have configurable bounds to keep the creature visible and the game playable.
+- A red warning sign transforms the creature into a pigeon. A green plus transforms it into a randomly selected animal, excluding its current animal when possible.
+- Transformations persist through evolution until another red sign or green plus is collected. Evolution points and stages continue advancing independently.
+- There is no life force and no automatic game over. The player can finish a run from the pause screen.
 
 ---
 
-# 7. COLLECTIBLES: SCOOBY SNACKS
+# 7. COLLECTIBLES: TREATS
 
-Scooby Snacks are the primary collectible.
+Ordinary treats are the primary collectible. Each one is worth the same 25 evolution points as an ordinary Scooby Snack.
 
-They should look like recognizable golden-brown, bone-shaped dog biscuits.
+Randomly choose from a colorful assortment of dog biscuits, candy canes, ice cream cones, hot dogs, chicken sandwiches, pancakes, fried chicken, boba tea, doughnuts, fries, milkshakes, burgers, pizza, cupcakes, tacos, and watermelon. Chicken sandwiches are unbranded. Each treat should be recognizable and visually distinct from hazards and special rewards.
 
 ### Behavior
 - Spawn randomly across the three lanes.
@@ -253,7 +214,7 @@ They should look like recognizable golden-brown, bone-shaped dog biscuits.
 - Trigger a brief visual collection effect.
 - Update the evolution meter.
 
-Scooby Snacks should remain valuable throughout the entire game, including after the player reaches the latest available evolution stage.
+Ordinary treats should remain valuable throughout the entire game, including after the player reaches the latest available evolution stage.
 
 ---
 
@@ -265,9 +226,8 @@ These rewards should be rarer than ordinary Scooby Snacks and provide meaningful
 
 ### Reward Types
 
-**A. Life-Force Treat**
-- Restores a portion of the player's life force.
-- May restore the entire life-force reserve, depending on the configured reward value.
+**A. Transformation Treat**
+- A green plus transforms the creature into a random animal.
 
 **B. Mega Scooby Snack**
 - Awards the equivalent of 100 ordinary Scooby Snacks.
@@ -276,7 +236,7 @@ These rewards should be rarer than ordinary Scooby Snacks and provide meaningful
 
 **C. Mystery Treat**
 - Provides a randomly selected bonus.
-- Possible outcomes include life-force restoration or a large evolution-point reward.
+- Possible outcomes include a random animal transformation or a large evolution-point reward.
 
 ### Reward Rules
 - Spawn randomly and relatively infrequently.
@@ -298,28 +258,28 @@ The player must move between lanes to avoid them.
 Introduce three categories of hazards.
 
 ### A. Regular Obstacle
-- Deals normal life-force damage.
+- Shrinks and darkens the creature by one step.
 - Should be the most common obstacle type.
 
-### B. Heavy-Damage Obstacle
-- Deals twice the normal collision damage.
+### B. Heavy Obstacle
+- Shrinks and darkens the creature by two steps.
 - Should look noticeably more dangerous than an ordinary obstacle.
 
-### C. Deadly Obstacle
-- Instantly ends the game upon collision.
-- Ignores the player's remaining life force.
+### C. Red Warning Sign
+- Shrinks and darkens the creature by one step and turns it into a pigeon.
 - Should have a highly distinctive visual appearance.
 - Should be relatively rare.
 
 ### Hazard Rules
 - Spawn obstacles randomly across the three lanes.
-- Use distinct visual designs for different hazard categories.
+- Randomly select creepy, cartoon-style appearances within each category. Regular hazards include poop, garbage, a non-graphic dead animal, a hornet, a spider, and a ghost. Heavy hazards include a scary teacher, shark, werewolf, zombie, and monster eye. Red signs include poison, a skull, and a haunted tombstone.
+- Use a pale rounded frame for regular hazards, an orange frame and ×2 badge for heavy hazards, and a glowing red triangle and ! badge for red signs. These indicators remain consistent regardless of the appearance chosen.
 - Clearly communicate the danger level of each obstacle.
 - Collision detection must be accurate and consistent.
 - Hazards should become more challenging as the game progresses.
-- Deadly obstacles must be rare and avoidable.
+- Red signs must be rare and avoidable.
 
-**Fairness is essential:** Never generate obstacle patterns that make collision unavoidable. Use a minimum warning time of 1.5 seconds from an obstacle becoming visible to reaching the player. Before committing a pattern to the world, validate it against the player's current lane, lane-change rules, and the upcoming obstacle sequence; at least one safe, reachable lane must remain at every obstacle encounter. Do not create simultaneous hazards that block all reachable lanes, including deadly hazards. Preserve these guarantees as speed and difficulty increase; if necessary, limit speed or spawn frequency rather than reducing the warning time or removing every safe route. Treat these values as configurable playtesting defaults.
+**Fairness is essential:** Never generate obstacle patterns that make collision unavoidable. Use a minimum warning time of 1.5 seconds from an obstacle becoming visible to reaching the player. Before committing a pattern to the world, validate it against the player's current lane, lane-change rules, and the upcoming obstacle sequence; at least one safe, reachable lane must remain at every obstacle encounter. Do not create simultaneous hazards that block all reachable lanes, including red signs. Preserve these guarantees as speed and difficulty increase; if necessary, limit speed or spawn frequency rather than reducing the warning time or removing every safe route. Treat these values as configurable playtesting defaults.
 
 ---
 
@@ -327,7 +287,7 @@ Introduce three categories of hazards.
 
 The game has no final level.
 
-The world continues generating obstacles and collectibles indefinitely until the player runs out of life force or collides with a deadly obstacle.
+The world continues generating obstacles and collectibles until the player ends the run from the pause screen.
 
 ### Difficulty Progression
 Gradually increase difficulty based on survival time or distance.
@@ -383,22 +343,19 @@ Display:
 - Current score.
 - Distance traveled.
 - Evolution progress meter.
-- Life-force meter.
 - Scooby Snack count.
 
 The evolution meter should communicate progress toward the next evolution.
-
-The life-force meter should clearly indicate the player's remaining health.
 
 ### Start Screen
 
 Display:
 
-ROAD OF LIFE
+lyfecycle-Fork
 
 Subtitle:
 
-"Use Left/Right to Evolve"
+"every decision is a fork in the road"
 
 Include:
 - Brief gameplay instructions.
@@ -408,7 +365,7 @@ Include:
 ### Game Over Screen
 
 Display:
-- Game Over.
+- Run Complete.
 - Final score.
 - Distance traveled.
 - Highest evolution stage.
@@ -419,13 +376,14 @@ Enter should restart the game on desktop.
 
 ### Game States
 
-Implement three primary game states:
+Implement four primary game states:
 
 1. START
 2. PLAYING
-3. GAME_OVER
+3. PAUSED
+4. GAME_OVER
 
-Ensure transitions between states are reliable.
+Provide pause, resume, and end-run buttons. Pause freezes gameplay, including movement, spawning, and progression; resuming continues the same run without advancing the simulation by the paused time. Ensure transitions between states are reliable.
 
 ---
 
@@ -450,7 +408,7 @@ The game should feel approachable, funny, and entertaining.
 Include sound effects for:
 - Collecting ordinary Scooby Snacks.
 - Collecting special rewards.
-- Taking damage.
+- Hitting a hazard.
 - Evolving.
 - Game over.
 
@@ -486,7 +444,7 @@ Prioritize development in this order:
 3. Creature movement and animation.
 4. Scooby Snack collection.
 5. Evolution and doubling point requirements.
-6. Life-force system and regeneration.
+6. Creature size, shade, and transformation system.
 7. Ordinary and special hazards.
 8. Surprise rewards.
 9. Difficulty progression.
@@ -511,7 +469,7 @@ Avoid implementing future features prematurely.
 - Do not hard-code a final evolution stage.
 - Do not remove evolution progress after collisions.
 - Ensure special hazards and rewards are distinguishable.
-- Ensure deadly obstacles are rare and avoidable.
+- Ensure red signs are rare and avoidable.
 - Test on mobile screen dimensions throughout development.
 - Avoid unnecessary dependencies.
 - Do not sacrifice performance for visual effects.

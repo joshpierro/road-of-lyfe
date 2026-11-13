@@ -85,10 +85,12 @@ body.playing .hud { opacity: 1; transform: translateY(0); }
 }
 
 .eyebrow { display: block; color: var(--muted); }
+.stage-card .eyebrow { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stage-card strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stage-card strong, .score-card strong { display: block; margin-top: 2px; font-size: 17px; line-height: 1.1; }
 .score-card strong { font-variant-numeric: tabular-nums; }
 
-.sound-button {
+.sound-button, .pause-button {
   flex: 0 0 43px;
   height: 43px;
   margin-top: 5px;
@@ -118,7 +120,6 @@ body.playing .hud { opacity: 1; transform: translateY(0); }
 .meter-label, .meter-value { color: #d3daea; white-space: nowrap; font-size: 8px; }
 .meter-value { text-align: right; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
 .meter-icon { font-size: 12px; }
-.heart { color: #ff8296; }
 .star { color: var(--gold); }
 
 .meter-track {
@@ -129,7 +130,6 @@ body.playing .hud { opacity: 1; transform: translateY(0); }
 }
 
 .meter-fill { width: 100%; height: 100%; border-radius: inherit; transition: width .18s ease; }
-.health-fill { background: linear-gradient(90deg, #ff728c, #ffb078); }
 .evolution-fill { background: linear-gradient(90deg, #ffc568, #fff09d); }
 
 .hud-bottom {
@@ -155,6 +155,42 @@ body.playing .hud { opacity: 1; transform: translateY(0); }
 
 .hidden { display: none; }
 
+.pause-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(13, 20, 36, .72);
+}
+
+.pause-overlay.hidden { display: none; }
+
+.pause-card {
+  width: min(350px, 100%);
+  padding: 28px 20px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 22px;
+  background: rgba(20, 31, 54, .95);
+  text-align: center;
+}
+
+.pause-card h2 { font-size: clamp(42px, 12vw, 64px); }
+.end-run-button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 8px 18px;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 12px;
+  color: var(--ink);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  cursor: pointer;
+}
+
 .start-screen { margin-top: 15px; }
 .title-mark { height: 20px; color: var(--gold); }
 .title-mark span { display: inline-block; margin: 0 8px; font-size: 13px; }
@@ -171,7 +207,8 @@ h1, h2 {
   text-shadow: 0 8px 30px rgba(20, 19, 39, .25);
 }
 
-h1 span { color: var(--gold); font-size: .53em; letter-spacing: -.04em; vertical-align: 16%; }
+h1 { font-size: clamp(32px, 10.5vw, 58px); line-height: .95; }
+h1 span { color: var(--gold); }
 
 .subtitle { margin: 17px 0 24px; color: #d9e1ef; font-size: 14px; }
 
@@ -265,6 +302,7 @@ h2 { font-size: clamp(54px, 15vw, 70px); margin: 10px 0 4px; }
 }
 
 body.playing .touch-controls { opacity: 1; pointer-events: auto; transform: translateY(0); }
+body.paused .touch-controls { pointer-events: none; }
 
 .lane-button {
   width: 60px;
@@ -316,7 +354,6 @@ body.playing .touch-controls { opacity: 1; pointer-events: auto; transform: tran
   .stage-card, .score-card { min-height: 46px; }
   .stage-card strong, .score-card strong { font-size: 15px; }
   .start-screen { margin-top: 12px; }
-  h1 { font-size: 58px; }
   .subtitle { margin: 10px 0 12px; }
   .how-to { margin-bottom: 12px; padding: 7px 12px; }
   .quiet-note { margin-top: 11px; }
